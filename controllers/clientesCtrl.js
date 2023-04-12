@@ -1,4 +1,4 @@
-const clienteModel = require('../models/clienteSchema')
+const clienteModel = require('../models/clienteSchema1')
 const clientesListar = async (req,res)=>{
     try{
         const clientes = await clienteModel.find()
