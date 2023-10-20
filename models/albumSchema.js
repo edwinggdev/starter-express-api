@@ -21,6 +21,9 @@ const albumSchema = mongoose.Schema(
         },
         cliente_id : {
             type: String
+        },
+        cliente_nombre : {
+            type: String
         }
     }
 )

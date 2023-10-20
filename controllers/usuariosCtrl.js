@@ -41,7 +41,7 @@ const usuarioLogin = async (req,res) =>{
             correcto = await bcrypt.compare(contrasena,usuario.contrasena)
             if(!correcto){
                 console.log("no encontrado...")
-                res.status(400).json({ msj:"no" })
+                res.status(400).json({ response: "no", msj:"Datos de Acceso incorrecto" })
             }else{
                 console.log("usuario" + usuario.nombre)
                 //res.status(200).json({ msj: "ok"})
@@ -55,7 +55,7 @@ const usuarioLogin = async (req,res) =>{
                     "palabrasecreta",
                     (error, token)=>{
                         if(error) throw error
-                        res.status(200).json({ msj: "ok", "token" : token })
+                        res.status(200).json({ response: "ok", "token" : token })
                     }
                 )
             }

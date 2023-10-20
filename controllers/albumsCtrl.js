@@ -19,6 +19,7 @@ const albumGuarda = (req,res)=>{
     }
 }
 
+//obtener los datos del album
 const albumObtener = async (req, res) => {
     const id  = req.params.id
     console.log(id)
@@ -60,10 +61,18 @@ const albumActualizar = async  (req,res)=>{
     }
 }
 
-
+//listar los albumes con el id del cliente
 const albumClienteListar = async (req,res)=>{
     const id = req.params.id
     const albums = await albumModel.find({cliente_id: id })
+    console.log( albums)
+    res.status(200).json(albums)
+ }
+
+ //listar los albumnes del usuario(fotografo)
+ const albumUsuarioListar = async (req,res)=>{
+    const id = req.params.id
+    const albums = await albumModel.find({usuario_id: id })
     console.log( albums)
     res.status(200).json(albums)
  }
@@ -73,5 +82,6 @@ module.exports = {
     albumGuarda,
     albumObtener,
     albumClienteListar,
+    albumUsuarioListar,
     albumActualizar
 }
