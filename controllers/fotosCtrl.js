@@ -111,6 +111,7 @@ const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
         let base64Data = i.split(';base64,').pop();
 
         const foto = new fotoModel()
+        const id = req.params.id
         foto.album_id = id
         foto.save()
         
