@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-//const URIDB = "mongodb://localhost:27017/selecta"
+// const URIDB = "mongodb://localhost:27017/selecta"
 const URIDB = "mongodb+srv://ciclo4:unab2022@cluster0.rv59jh6.mongodb.net/?retryWrites=true&w=majority"
 
 module.exports = ()=>{
@@ -9,7 +9,8 @@ module.exports = ()=>{
             {
                 keepAlive : true,
                 useNewUrlParser : true,
-                useUnifiedTopology : true
+                useUnifiedTopology : true,
+                // family:4 //en caso de no funcionar en local
             },
             (err)=>{
                 if(err){

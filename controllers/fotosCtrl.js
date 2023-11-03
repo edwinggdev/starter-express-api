@@ -1,6 +1,5 @@
 const fotoModel = require('../models/fotoSchema')
 const fs = require("node:fs")
-
 const fotosListar = async (req,res)=>{
     try{
         const fotos = await fotoModel.find()
@@ -103,22 +102,35 @@ const fotosEliminar = async(req,res) =>{
     // res.send("eliminando...")
 }
 
-const fotosSubir = async(req,res)=>{
+const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
     try{
-        console.log(req.file)
-        const imagen = req.file
-        console.log("recibiendo archivo")
-        console.log(imagen)
-        console.log("Archivo subida como:" + imagen)
-        const id = req.params.id
+        //console.log(req.body)
+        const img = JSON.parse(JSON.stringify(req.body));
+        console.log(img.imagen)
+        let i = img.imagen
+        let base64Data = i.split(';base64,').pop();
+
         const foto = new fotoModel()
         foto.album_id = id
         foto.save()
-
-        fs.rename('./public/images/'+imagen.filename, './public/images/' + foto._id + '.jpg', ()=> { console.log("cambio realizado") } )
+        
+        fs.writeFileSync('public/images/'+ foto._id + '.jpg', base64Data,  {encoding: 'base64'});
         res.status(200).json({msj: "ok"})
+
+        //METODO para las imag que vienen desde formulario
+        // console.log(req.file)
+        // const filename = req.file.filename
+        // console.log("recibiendo archivo" + filename)
+        // const id = req.params.id
+        // const foto = new fotoModel()
+        // foto.album_id = id
+        // foto.save()
+        // fs.rename('./public/images/'+filename, './public/images/' + foto._id + '.jpg', ()=> { 
+        //     console.log("cambio realizado") 
+        // } )
+        //res.status(200).json({msj: "ok"})
     }catch(err){
-        res.status(400).json({msj:"problemas"})
+        res.status(400).json({msj:"problemas" + err})
     }
     
 }
