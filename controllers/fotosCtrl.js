@@ -109,10 +109,10 @@ const fotosEliminar = async(req,res) =>{
 const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
     try{
         let filename = req.path.slice(1)
-
+        let bucket = "cyclic-fair-blue-buffalo-vest-eu-west-1"
         try {
             let s3File = await s3.getObject({
-            Bucket: process.env.BUCKET,
+            Bucket: bucket,
             Key: filename,
             }).promise()
 
