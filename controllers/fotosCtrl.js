@@ -1,7 +1,7 @@
 const fotoModel = require('../models/fotoSchema')
 const fs = require("node:fs")
-// const AWS = require("aws-sdk");
-// const s3 = new AWS.S3()
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
 const bodyParser = require('body-parser');
 
 const fotosListar = async (req,res)=>{
