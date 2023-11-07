@@ -1,5 +1,9 @@
 const fotoModel = require('../models/fotoSchema')
 const fs = require("node:fs")
+// const AWS = require("aws-sdk");
+// const s3 = new AWS.S3()
+const bodyParser = require('body-parser');
+
 const fotosListar = async (req,res)=>{
     try{
         const fotos = await fotoModel.find()
@@ -104,19 +108,40 @@ const fotosEliminar = async(req,res) =>{
 
 const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
     try{
-        //console.log(req.body)
-        const img = JSON.parse(JSON.stringify(req.body));
-        console.log(img.imagen)
-        let i = img.imagen
-        let base64Data = i.split(';base64,').pop();
+        let filename = req.path.slice(1)
 
-        const foto = new fotoModel()
-        const id = req.params.id
-        foto.album_id = id
-        foto.save()
+        try {
+            let s3File = await s3.getObject({
+            Bucket: process.env.BUCKET,
+            Key: filename,
+            }).promise()
+
+            res.set('Content-type', s3File.ContentType)
+            res.send(s3File.Body.toString()).end()
+        } catch (error) {
+            if (error.code === 'NoSuchKey') {
+            console.log(`No such key ${filename}`)
+            res.sendStatus(404).end()
+            } else {
+            console.log(error)
+            res.sendStatus(500).end()
+            }
+        }
+
+        //metodo para subir imagen base 64
+        //console.log(req.body)
+        // const img = JSON.parse(JSON.stringify(req.body));
+        // console.log(img.imagen)
+        // let i = img.imagen
+        // let base64Data = i.split(';base64,').pop();
+
+        // const foto = new fotoModel()
+        // const id = req.params.id
+        // foto.album_id = id
+        // foto.save()
         
-        fs.writeFileSync('public/images/'+ foto._id + '.jpg', base64Data,  {encoding: 'base64'});
-        res.status(200).json({msj: "ok"})
+        // fs.writeFileSync('public/images/'+ foto._id + '.jpg', base64Data,  {encoding: 'base64'});
+        // res.status(200).json({msj: "ok"})
 
         //METODO para las imag que vienen desde formulario
         // console.log(req.file)
