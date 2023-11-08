@@ -10,8 +10,12 @@ router.get('/album/:id',fotosCtrl.fotosAlbumListar)
 router.post('/', fotosCtrl.fotosGuarda )
 router.put('/', fotosCtrl.fotosActualizar)
 router.delete('/:id', fotosCtrl.fotosEliminar)
+// router.put('/images/:id',
+//             upload.single('imagen'),
+//             fotosCtrl.fotosSubir
+//             )
 router.put('/images/:id',
-            upload.single('imagen'),
+           
             fotosCtrl.fotosSubir
             )
 router.put('/:id', fotosCtrl.fotoSeleccionar)

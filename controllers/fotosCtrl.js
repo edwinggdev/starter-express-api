@@ -108,25 +108,25 @@ const fotosEliminar = async(req,res) =>{
 
 const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
     try{
-        let filename = req.path.slice(1)
-        let bucket = "cyclic-fair-blue-buffalo-vest-eu-west-1"
-        try {
-            let s3File = await s3.getObject({
-            Bucket: bucket,
-            Key: filename,
-            }).promise()
+        const AWS_REGION="eu-west-1"
+        const AWS_ACCESS_KEY_ID="ASIAXZNAB2U3FJJEIHUL"
+        const AWS_SECRET_ACCESS_KEY="3S5sNM/oQe3UgL240+tPMnQPzLIz47e3510HF80S"
+        const AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjEIf//////////wEaCXNhLWVhc3QtMSJIMEYCIQCA2PoXDPIU8d7+6cigUz5gXx14ogHGO+gKlJJxlrO3bAIhANBgt89b02BiWhH3EOTByWbpxlc4KVXBddSilzt/FIFYKrkCCMD//////////wEQARoMNTM1NTk1OTYzNzAyIgxnHlzFJI4eowcXmbYqjQLlaNtD8VWgEwifsX3WE/Ayn4EKm0d2MMELb+55AuvGwcN5iK3Ti4aUg2YxrQaTnlMKSclsdLs2Gexdsnn+raF3Uz0ouPlS623HtZ/54a/MuJCbmAqW4zbloLdB2UfpRRNS4nTAy6OhV+jMP80nXNNDSDke7vhucCIxMZozzass/gJ4h0Y/mNu8LYwdVCYdq/uwbicto0X6IcWqDmVcYtL+0S6DdU3zNU9EDSvEyQxss9ZjOn/Bpo6ze61FydLKgjRIHfx1GmXBY3gMAV2brrEh6P8xrPVXeQPdPeSxcGkZpWWYS8YSWYeO+D13fEp9RxacjpvK0m3rvolOuCuaXcguyFxw0RQ8TK1m5J2KUjDHuq6qBjqcAZUtT43Q2Q15fUhPL/bAJ3+oSM+2qYOyMX79gxt+YnAQpAd3Jplru/+GAFLcI8W/ps6eTHYI3lF0CB7rhVp20RRLcPRgauu0uSfUImyNIxDqYTXyBcX70PCtbibqk5LnNkwJHQQZIhcKRWfQElkH1i0rT6Lrys+BQRDONroe9A/YjcBgUWl27SFfBM+pibByY+D5S9vmSWOxE8qXaw=="
+        const s3 = new AWS.S3({
+            accessKeyId: AWS_ACCESS_KEY_ID,
+            secretAccessKey: AWS_SECRET_ACCESS_KEY,
+          })
 
-            res.set('Content-type', s3File.ContentType)
-            res.send(s3File.Body.toString()).end()
-        } catch (error) {
-            if (error.code === 'NoSuchKey') {
-            console.log(`No such key ${filename}`)
-            res.sendStatus(404).end()
-            } else {
-            console.log(error)
-            res.sendStatus(500).end()
-            }
-        }
+        
+          const imageURL = 'https://www.ginga.com.co/wp-content/uploads/2021/02/logopagina-1.png'
+            const res = await fetch(imageURL)
+            const blob = await res.buffer()
+
+          const uploadedImage = await s3.upload({
+            Bucket: "cyclic-fair-blue-buffalo-vest-eu-west-1",
+            Key: req.files[0].originalFilename,
+            Body: blob,
+          }).promise()
 
         //metodo para subir imagen base 64
         //console.log(req.body)
