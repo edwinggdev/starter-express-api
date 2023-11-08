@@ -122,8 +122,8 @@ const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
         
         const imageURL = 'https://www.ginga.com.co/wp-content/uploads/2021/02/logopagina-1.png'
         const res = await fetch(imageURL)
-        const blob = await res.Buffer() //buffer()
-
+        //const blob = await res.Buffer() //buffer()
+        let blob = res.split(';base64,').pop();
         const uploadedImage = await s3.upload({
         Bucket: "cyclic-fair-blue-buffalo-vest-eu-west-1",
         Key: req.files[0].originalFilename,
