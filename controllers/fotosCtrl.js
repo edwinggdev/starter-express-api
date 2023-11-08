@@ -2,7 +2,9 @@ const fotoModel = require('../models/fotoSchema')
 const fs = require("node:fs")
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
+const { Buffer } = require("node:buffer");
 const bodyParser = require('body-parser');
+
 
 const fotosListar = async (req,res)=>{
     try{
@@ -118,15 +120,15 @@ const fotosSubir = async(req,res)=>{ console.log("subiendo Archivo")
           })
 
         
-          const imageURL = 'https://www.ginga.com.co/wp-content/uploads/2021/02/logopagina-1.png'
-            const res = await fetch(imageURL)
-            const blob = await res.buffer()
+        const imageURL = 'https://www.ginga.com.co/wp-content/uploads/2021/02/logopagina-1.png'
+        const res = await fetch(imageURL)
+        const blob = await res.Buffer() //buffer()
 
-          const uploadedImage = await s3.upload({
-            Bucket: "cyclic-fair-blue-buffalo-vest-eu-west-1",
-            Key: req.files[0].originalFilename,
-            Body: blob,
-          }).promise()
+        const uploadedImage = await s3.upload({
+        Bucket: "cyclic-fair-blue-buffalo-vest-eu-west-1",
+        Key: req.files[0].originalFilename,
+        Body: blob,
+        }).promise()
 
         //metodo para subir imagen base 64
         //console.log(req.body)
