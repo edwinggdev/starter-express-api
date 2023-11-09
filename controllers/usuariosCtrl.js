@@ -1,13 +1,15 @@
 const usuarioModel = require('../models/usuarioSchema')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const usuarioGuarda = async (req,res)=>{
+const usuarioGuarda = async (req,res)=>{ console.log("guardando usuario")
     console.log(req.body)
     //res.send("...")
     try{
         const usuario = new usuarioModel(req.body)
+        const contrasena = createPassword(6,false,false)
+        console.log("pass", contrasena)
         const salt = await bcrypt.genSaltSync(10);
-        usuario.contrasena = await bcrypt.hash(usuario.contrasena,salt)
+        usuario.contrasena = await bcrypt.hash(contrasena,salt)
         console.log("contrasena generada: " + usuario.contrasena)
         await usuario.save()
         res.status(200).json({msj: "usuario creado"})
@@ -108,7 +110,7 @@ function CorreoEnviar(correo,nombre,contrasena){
     subject: "Registro en Selecta", // Replace with the email subject
     html: `
         <h1>Hola ` + nombre + `</h1>
-        <p>Tu registro a nuestra apliacion Selecta ha sido satisfactorio.</p>
+        <p>Tu registro a nuestra apliCacion Selecta ha sido satisfactorio.</p>
         <p>Se ha generado una contraseña de ingreso:</p>
         <p><h3>`+ contrasena + `</h3></p>
         <p>Para ingregar a la plataforma haz click <a href="">Aqui</a></p>

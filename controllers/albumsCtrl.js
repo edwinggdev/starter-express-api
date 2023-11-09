@@ -6,7 +6,7 @@ const albumListar = async (req,res)=>{
    res.status(200).json(albums)
 }
 
-const albumGuarda = (req,res)=>{
+const albumGuarda = (req,res)=>{ console.log("album guardar")
     console.log(req.body)
     try{
         const album = new albumModel(req.body)
@@ -16,6 +16,7 @@ const albumGuarda = (req,res)=>{
     }
     catch(err){
         console.log("error album Guarda "  + err)
+        res.status(300).json({"msj": "error creando album" })
     }
 }
 

@@ -16,8 +16,9 @@ router.delete('/:id', fotosCtrl.fotosEliminar)
 //             )
 router.put('/images/:id',
            
-            fotosCtrl.fotosSubir
+            fotosCtrl.photoUpload
             )
 router.put('/:id', fotosCtrl.fotoSeleccionar)
 router.get('/album/seleccionadas/:id',fotosCtrl.fotosSeleccionadas)
+router.get('/images/nombre/:id',fotosCtrl.fotosNombre)
 module.exports = router
